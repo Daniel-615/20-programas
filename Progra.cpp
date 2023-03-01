@@ -242,39 +242,65 @@ void programa6(){
 			case 9: cout << "Nueve "; break;
 		}
 }
-    string convertir_numero_a_letras(int numero) {
-    if (numero == 0) {
-        return "cero";
+string int_to_str(int num)
+{
+    string str = "";
+    string units[] = {"", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"};
+    string tens[] = {"", "diez", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"};
+    string teens[] = {"diez", "once", "doce", "trece", "catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve"};
+
+    int num_units = num % 10;
+    int num_tens = (num / 10) % 10;
+    int num_hundreds = (num / 100) % 10;
+    int num_thousands = (num / 1000) % 10;
+
+    if (num_thousands > 0)
+    {
+        str += units[num_thousands] + " mil ";
     }
 
-    string resultado = "";
-
-    if (numero >= 1000 && numero <= 999999) {
-        resultado += convertir_numero_a_letras(numero / 1000) + " mil ";
-        numero %= 1000;
+    if (num_hundreds > 0)
+    {
+        str += units[num_hundreds] + " cientos ";
     }
 
-    if (numero >= 100) {
-        resultado += centenas[numero / 100] + " ";
-        numero %= 100;
+    if (num_tens == 1 && num_units > 0)
+    {
+        str += teens[num_units];
+    }
+    else if (num_tens > 0 || num_units > 0)
+    {
+        if (num_tens > 0)
+        {
+            str += tens[num_tens] + " ";
+        }
+        if (num_units > 0)
+        {
+            str += units[num_units];
+        }
     }
 
-    if (numero >= 10 && numero <= 19) {
-        resultado += decenas[numero % 10] + " ";
-        numero = 0;
-    }
-
-    if (numero >= 20) {
-        resultado += decenas2[numero / 10] + " ";
-        numero %= 10;
-    }
-
-    if (numero > 0) {
-        resultado += unidades[numero] + " ";
-    }
-
-    return resultado;
+    return str;
 }
+
+string double_to_str(double num)
+{
+    int int_part = static_cast<int>(num);
+    int decimal_part = static_cast<int>((num - int_part) * 100);
+
+    string int_str = int_to_str(int_part);
+    string decimal_str = int_to_str(decimal_part);
+
+    return int_str + " punto " + decimal_str;
+}
+void programa7(){
+cout<<"Ingrese el numero: "<<endl;
+    double num = 0;
+    cin>>num;
+    string numStr = double_to_str(num);
+    cout << num << " en letras es: " << numStr;
+}
+
 void programa8(){
     	int n1,n2= 1;
 	int acumulador=1;
@@ -587,11 +613,7 @@ void principal(){
     case 4:programa4();break;
     case 5:programa5();break;
     case 6:programa6();break;
-    case 7:
-    int numero;
-    cout<<"Ingrese el numero: "<<endl;
-    cin>>numero;
-    cout << convertir_numero_a_letras(numero) << endl;break;
+    case 7:programa7();break;
     case 8:programa8();break;
     case 9:cout<<"A continuación se le mostrara las tablas de multiplicar:"<<endl;programa9();break;
     case 10:programa10();break;
